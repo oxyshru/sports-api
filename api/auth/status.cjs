@@ -6,8 +6,8 @@ const { PoolClient } = require('pg'); // Import PoolClient type
 
 exports.handler = async function handler(req, res) { // Changed export default to exports.handler
   // Handle OPTIONS preflight requests
-  if (req.method === 'OPTIONS') {
-      res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
+ if (req.method === 'OPTIONS') {
+      res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*'); // Use env var for origin
       res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
       res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
       res.status(200).end();
