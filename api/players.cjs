@@ -12,6 +12,8 @@ exports.handler = authMiddleware(async (req, res) => { // Changed export default
     res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
     // --- END ADDED ---
 
+    // Handle OPTIONS preflight requests are handled by authMiddleware
+
     let client; // Untyped variable
     try {
         client = await getConnection();
@@ -99,7 +101,7 @@ exports.handler = authMiddleware(async (req, res) => { // Changed export default
             }
 
         } else if (req.method === 'POST') {
-            // Handle POST /api/players (assuming this is for creating players, though registration is handled elsewhere)
+            // Handle POST /api/players (assuming this is for creating players, though registration handles it)
             // This endpoint might not be needed if registration handles player creation.
             // If it is needed, define logic here.
             sendApiResponse(res, false, undefined, 'POST method not implemented for /api/players', 501); // Not Implemented
