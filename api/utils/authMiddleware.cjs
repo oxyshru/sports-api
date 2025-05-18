@@ -73,11 +73,13 @@ function authMiddleware(handler, requiredRoles) { // Use function keyword for CJ
   return async (req, res) => { // Untyped variables
     // Handle OPTIONS preflight requests before authentication
     if (req.method === 'OPTIONS') {
-        res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*'); // Use env var for origin
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-        res.status(200).end();
-        return;
+        // --- ADDED/MODIFIED: Explicitly set all CORS headers for the OPTIONS response ---
+        res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*'); // Set Origin here too
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Be explicit about allowed methods
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Be explicit about allowed headers
+        res.status(200).end(); // Send the successful preflight response
+        return; // End the function execution for OPTIONS requests
+        // --- END ADDED/MODIFIED ---
     }
 
     const authHeader = req.headers.authorization;
