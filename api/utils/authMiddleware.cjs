@@ -121,4 +121,3 @@ function authMiddleware(handler, requiredRoles) { // Use function keyword for CJ
 exports.generateMockToken = generateMockToken; // Export named
 exports.verifyMockToken = verifyMockToken; // Export named
 exports.authMiddleware = authMiddleware; // Export named
-
