@@ -23,7 +23,7 @@ function sendApiResponse( // Use function keyword for CJS export
     error,
   };
 
-  // --- ADD THIS LINE TO SET CORS HEADER FOR ALL RESPONSES ---
+  // --- ADDED: Set CORS header for all responses sent via this helper ---
   // Set the Access-Control-Allow-Origin header.
   // Use the ALLOWED_ORIGIN environment variable if set, otherwise allow all (*).
   // In production, it's better to set ALLOWED_ORIGIN to your frontend URL.
