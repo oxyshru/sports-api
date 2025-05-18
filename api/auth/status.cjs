@@ -20,15 +20,14 @@ exports.handler = async function handler(req, res) { // Changed export default t
   }
 
   let client; // Use untyped variable for CJS
-  try {
-    // Attempt to get a connection to test the database
-    client = await getConnection();
-    client.release(); // Release immediately if successful
+ try {
+  client = await getConnection(); // <--- This is the most probable line causing the crash
+  client.release();
+  sendApiResponse(res, true, { connected: true }, undefined, 200);
+} catch (error) {
+  console.error('Database connection test failed:', error); // <--- If it crashes here, this error should appear in Vercel logs
+  sendApiResponse(res, false, { connected: false }, 'Database connection failed', 500);
+}
 
-    sendApiResponse(res, true, { connected: true }, undefined, 200);
-  } catch (error) {
-    console.error('Database connection test failed:', error);
-    sendApiResponse(res, false, { connected: false }, 'Database connection failed', 500);
-  }
 }
 
