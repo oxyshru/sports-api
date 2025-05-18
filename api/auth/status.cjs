@@ -5,9 +5,18 @@ const { sendApiResponse } = require('../utils/apiResponse'); // Corrected import
 const { PoolClient } = require('pg'); // Import PoolClient type
 
 exports.handler = async function handler(req, res) { // Changed export default to exports.handler
+  // --- ADD THIS LINE AT THE VERY BEGINNING OF THE HANDLER ---
+  // Set the Access-Control-Allow-Origin header for all responses from this handler.
+  // Use the ALLOWED_ORIGIN environment variable if set, otherwise allow all (*).
+  // In production, it's better to set ALLOWED_ORIGIN to your frontend URL.
+  res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
+  // --- END ADDITION ---
+
+
   // Handle OPTIONS preflight requests
- if (req.method === 'OPTIONS') {
-      res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*'); // Use env var for origin
+  if (req.method === 'OPTIONS') {
+      // Note: Setting headers here is also necessary for preflight,
+      // but setting it at the top covers all methods.
       res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
       res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
       res.status(200).end();
@@ -20,14 +29,15 @@ exports.handler = async function handler(req, res) { // Changed export default t
   }
 
   let client; // Use untyped variable for CJS
- try {
-  client = await getConnection(); // <--- This is the most probable line causing the crash
-  client.release();
-  sendApiResponse(res, true, { connected: true }, undefined, 200);
-} catch (error) {
-  console.error('Database connection test failed:', error); // <--- If it crashes here, this error should appear in Vercel logs
-  sendApiResponse(res, false, { connected: false }, 'Database connection failed', 500);
-}
+  try {
+    // Attempt to get a connection to test the database
+    client = await getConnection(); // <--- This is the most probable line causing the crash
+    client.release(); // Release immediately if successful
 
+    sendApiResponse(res, true, { connected: true }, undefined, 200);
+  } catch (error) {
+    console.error('Database connection test failed:', error);
+    // sendApiResponse is called here, and it should now set the CORS header
+    sendApiResponse(res, false, { connected: false }, 'Database connection failed', 500);
+  }
 }
-
