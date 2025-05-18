@@ -7,9 +7,9 @@ const { generateMockToken } = require('../utils/authMiddleware');
 const { PoolClient } = require('pg');
 
 exports.handler = async function handler(req, res) {
-    // --- Keep this line for non-OPTIONS requests and general safety ---
+    // --- ADDED ---
     res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
-    // --- END ---
+    // --- END ADDED ---
 
     // Handle OPTIONS preflight requests
     if (req.method === 'OPTIONS') {
