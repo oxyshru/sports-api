@@ -19,21 +19,16 @@ exports.handler = async function handler(req, res) { // Changed export default t
       return;
   }
 
-  if (req.method !== 'GET') {
-    sendApiResponse(res, false, undefined, 'Method Not Allowed', 405);
-    return;
-  }
+  if (req.method !== 'GET') { ... }
 
-  let client; // Use untyped variable for CJS
+  let client;
   try {
-    // Attempt to get a connection to test the database
-    client = await getConnection(); // <--- This is the most probable line causing the crash
-    client.release(); // Release immediately if successful
+    client = await getConnection(); // <--- THIS IS LIKELY WHERE IT CRASHES
+    client.release();
 
     sendApiResponse(res, true, { connected: true }, undefined, 200);
   } catch (error) {
     console.error('Database connection test failed:', error);
-    // sendApiResponse is called here, and it should now set the CORS header
     sendApiResponse(res, false, { connected: false }, 'Database connection failed', 500);
   }
 }
