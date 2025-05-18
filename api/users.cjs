@@ -9,6 +9,10 @@ const { PoolClient } = require('pg');
 
 // Wrap the handler with authMiddleware, requiring 'admin' role for GET
 exports.handler = authMiddleware(async (req, res) => { // Changed export default to exports.handler
+    // --- ADDED ---
+    res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
+    // --- END ADDED ---
+
     if (req.method !== 'GET') {
         sendApiResponse(res, false, undefined, 'Method Not Allowed', 405);
         return;
@@ -45,4 +49,3 @@ exports.handler = authMiddleware(async (req, res) => { // Changed export default
         }
     }
 }, ['admin']); // This endpoint requires 'admin' role
-
