@@ -301,9 +301,22 @@ SELECT setval('payments_id_seq', (SELECT MAX(id) FROM payments));
 
 INSERT INTO performance_notes (id, player_id, coach_id, date, note, created_at, updated_at) VALUES
 (1, 1, 1, '2025-05-10', 'Significant improvement in backhand technique', NOW(), NOW()),
-(2, 2, 1, '2025-05-12', 'Good stamina during drills', NOW(), NOW()),
-(3, 3, 2, '2025-05-18', 'Strong performance in freestyle', NOW(), NOW()),
-(4, 4, 2, '2025-05-18', 'Improving dive technique', NOW(), NOW());
+(2, 2, 1, '2025-05-12', note: 'Good stamina during drills', coach_id: 1, created_at: '2025-05-12', updated_at: '2025-05-12' },
+        { id: 3, player_id: 3, date: '2025-05-18', note: 'Strong performance in freestyle', coach_id: 2, created_at: '2025-05-18', updated_at: '2025-05-18' },
+        { id: 4, player_id: 4, date: '2025-05-18', note: 'Improving dive technique', coach_id: 2, created_at: '2025-05-18', updated_at: '2025-05-18' },
+    ],
+    player_games: [
+        { player_id: 1, game_id: 1 },
+        { player_id: 2, game_id: 1 },
+        { player_id: 3, game_id: 2 },
+        { player_id: 4, game_id: 2 },
+    ],
+     attendance: [
+         { session_id: 1, player_id: 1, status: 'present', created_at: '2025-05-17 09:30:00+00', updated_at: '2025-05-17 09:30:00+00' },
+         { session_id: 1, player_id: 2, status: 'present', created_at: '2025-05-17 09:31:00+00', updated_at: '2025-05-17 09:31:00+00' },
+         { session_id: 3, player_id: 3, status: 'present', created_at: '2025-05-18 16:10:00+00', updated_at: '2025-05-18 16:10:00+00' },
+     ]
+};
 
 SELECT setval('performance_notes_id_seq', (SELECT MAX(id) FROM performance_notes));
 
@@ -329,6 +342,8 @@ exports.handler = authMiddleware(async (req, res) => { // Changed export default
     // --- ADDED ---
     res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
     // --- END ADDED ---
+
+    // Handle OPTIONS preflight requests are handled by authMiddleware
 
     if (req.method !== 'POST') {
         sendApiResponse(res, false, undefined, 'Method Not Allowed', 405);
