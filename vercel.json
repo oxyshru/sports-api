@@ -1,0 +1,20 @@
+{
+  "builds": [
+    {
+      "src": "api/**/*.cjs",
+      "use": "@vercel/node@3.0.0"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    }
+  ],
+  "installCommand": "npm install --force",
+  "build": {
+    "env": {
+      "NODE_VERSION": "20"
+    }
+  }
+}
