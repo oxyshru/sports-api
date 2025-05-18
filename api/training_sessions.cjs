@@ -12,6 +12,8 @@ exports.handler = authMiddleware(async (req, res) => { // Changed export default
     res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
     // --- END ADDED ---
 
+    // Handle OPTIONS preflight requests are handled by authMiddleware
+
     let client; // Untyped variable
     try {
         client = await getConnection();
