@@ -19,16 +19,21 @@ exports.handler = async function handler(req, res) { // Changed export default t
       return;
   }
 
-  if (req.method !== 'GET') { ... }
+ if (req.method !== 'GET') { // <--- Line 22 is likely around here
+    sendApiResponse(res, false, undefined, 'Method Not Allowed', 405);
+    return;
+  }
 
   let client;
   try {
-    client = await getConnection(); // <--- THIS IS LIKELY WHERE IT CRASHES
-    client.release();
+    // Attempt to get a connection to test the database
+    client = await getConnection();
+    client.release(); // Release immediately if successful
 
     sendApiResponse(res, true, { connected: true }, undefined, 200);
   } catch (error) {
     console.error('Database connection test failed:', error);
+    // sendApiResponse is called here, and it should now set the CORS header
     sendApiResponse(res, false, { connected: false }, 'Database connection failed', 500);
   }
 }
