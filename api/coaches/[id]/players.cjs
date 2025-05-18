@@ -13,6 +13,8 @@ exports.handler = authMiddleware(async (req, res) => { // Changed export default
     res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
     // --- END ADDED ---
 
+    // Handle OPTIONS preflight requests are handled by authMiddleware
+
     const coachId = parseInt(req.query.id, 10); // Use req.query.id directly
 
     if (isNaN(coachId)) {
