@@ -326,6 +326,10 @@ INSERT INTO session_attendance (session_id, player_id, status, created_at, updat
 // This endpoint should be protected and only accessible by the Super Admin
 // Use AuthenticatedRequest type for req (types are not needed at runtime in CJS)
 exports.handler = authMiddleware(async (req, res) => { // Changed export default to exports.handler
+    // --- ADDED ---
+    res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
+    // --- END ADDED ---
+
     if (req.method !== 'POST') {
         sendApiResponse(res, false, undefined, 'Method Not Allowed', 405);
         return;
@@ -368,4 +372,3 @@ exports.handler = authMiddleware(async (req, res) => { // Changed export default
         }
     }
 }, ['admin']); // Ensure only users with the 'admin' role can access this endpoint
-
