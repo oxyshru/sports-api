@@ -9,6 +9,10 @@ const { PoolClient } = require('pg');
 
 // Wrap the handler with authMiddleware
 exports.handler = authMiddleware(async (req, res) => { // Changed export default to exports.handler
+    // --- ADDED ---
+    res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
+    // --- END ADDED ---
+
     const coachId = parseInt(req.query.id, 10); // Use req.query.id directly
 
     if (isNaN(coachId)) {
@@ -81,4 +85,3 @@ exports.handler = authMiddleware(async (req, res) => { // Changed export default
         }
     }
 }, ['admin', 'coach']); // Allow admin or coach
-
