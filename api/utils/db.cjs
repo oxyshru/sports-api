@@ -69,4 +69,3 @@ async function getConnection() { // Use function keyword for CJS export
 }
 
 exports.getConnection = getConnection; // Export the function
-
