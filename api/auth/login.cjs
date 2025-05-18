@@ -7,9 +7,14 @@ const { generateMockToken } = require('../utils/authMiddleware');
 const { PoolClient } = require('pg');
 
 exports.handler = async function handler(req, res) { // Changed export default to exports.handler
+    // --- ADDED ---
+    res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
+    // --- END ADDED ---
+
     // Handle OPTIONS preflight requests
     if (req.method === 'OPTIONS') {
-        res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
+        // Note: Setting headers here is also necessary for preflight,
+        // but setting it at the top covers all methods.
         res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
         res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
         res.status(200).end();
@@ -78,4 +83,3 @@ exports.handler = async function handler(req, res) { // Changed export default t
         }
     }
 }
-
