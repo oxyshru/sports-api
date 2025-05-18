@@ -1,17 +1,16 @@
-    {
-      "name": "sports-management-api",
-      "version": "1.0.0",
-      "description": "Backend API for Sports Management System",
-      "main": "api/index.js",
-      "scripts": {
-        "start": "vercel dev"
-      },
-      "dependencies": {
-        "@vercel/node": "^3.2.0",
-        "pg": "^8.12.0"
-       
-      },
-      "devDependencies": {
-        
-      }
-    }
+{
+  "name": "sports-management-api",
+  "version": "1.0.0",
+  "description": "Backend API for Sports Management System",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "@vercel/node": "^3.2.0",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.3" 
+  }
+}
