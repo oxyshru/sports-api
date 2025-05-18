@@ -5,13 +5,9 @@ const { sendApiResponse } = require('../utils/apiResponse'); // Corrected import
 const { PoolClient } = require('pg'); // Import PoolClient type
 
 exports.handler = async function handler(req, res) { // Changed export default to exports.handler
-  // --- ADD THIS LINE AT THE VERY BEGINNING OF THE HANDLER ---
-  // Set the Access-Control-Allow-Origin header for all responses from this handler.
-  // Use the ALLOWED_ORIGIN environment variable if set, otherwise allow all (*).
-  // In production, it's better to set ALLOWED_ORIGIN to your frontend URL.
+  // --- ADDED ---
   res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
-  // --- END ADDITION ---
-
+  // --- END ADDED ---
 
   // Handle OPTIONS preflight requests
   if (req.method === 'OPTIONS') {
